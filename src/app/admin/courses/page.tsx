@@ -196,7 +196,7 @@ export default function Courses() {
         ]}
         dataSource={coursesWithCertificates}
         rowKey="course_id"
-        pagination={false}  // Remove pagination for this table, you can add it if needed
+        pagination={false} 
       />
 
       <Title level={4}>Khóa học có phản hồi</Title>
@@ -209,7 +209,7 @@ export default function Courses() {
         ]}
         dataSource={coursesWithFeedback}
         rowKey="course_id"
-        pagination={false}  // Remove pagination for this table, you can add it if needed
+        pagination={false}  
       />
 
       <Modal title="Cập nhật khóa học" open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>

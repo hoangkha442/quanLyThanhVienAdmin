@@ -19,7 +19,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { userLocalStorage } from "@/services/LocalService";
 import { authServices } from "@/services/authApi";
 
-
 const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -55,9 +54,13 @@ export default function Sidebar({ setLoading }: SidebarProps) {
   }, []);
 
   const handleLogout = () => {
-    userLocalStorage.remove()
+    userLocalStorage.remove();
     message.success("Đăng xuất thành công!");
     router.push("/");
+  };
+
+  const handleSecuritySettingsClick = () => {
+    message.warning("Tính năng chưa phát triển");
   };
 
   const adminMenu: MenuItem[] = [
@@ -87,10 +90,14 @@ export default function Sidebar({ setLoading }: SidebarProps) {
       icon: <UserOutlined />,
       children: [
         { key: "/dashboard/profile", label: "Thông tin cá nhân" },
-        { key: "/dashboard/settings", label: "Cài đặt bảo mật" },
+        {
+          key: "/dashboard/settings",
+          label: "Cài đặt bảo mật",
+          onClick: handleSecuritySettingsClick, 
+        },
       ],
     },
-    { key: "/auth/logout", label: "Đăng xuất", icon: <LogoutOutlined />, onClick: handleLogout, danger: true},
+    { key: "/auth/logout", label: "Đăng xuất", icon: <LogoutOutlined />, onClick: handleLogout, danger: true },
   ];
 
   const items = role === "admin" ? adminMenu : role === "user" ? userMenu : [];

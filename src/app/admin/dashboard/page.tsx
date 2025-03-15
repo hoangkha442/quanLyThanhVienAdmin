@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { dashboardServices } from "@/services/dashboardApi"; // Assuming you have a service to fetch dashboard stats
+import { dashboardServices } from "@/services/dashboardApi"; 
 
 export default function Dashboard() {
   const [statistics, setStatistics] = useState<any>(null);

@@ -19,7 +19,7 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 
-import {usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -35,7 +35,9 @@ interface UserProps {
 
 export default function CustomHeader({ user }: UserProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
+ 
   const generateBreadcrumbs = () => {
     const pathArray = pathname.split("/").filter((x) => x);
     const breadcrumbs = [{ title: <HomeOutlined />, href: "/admin/dashboard" }];
@@ -66,8 +68,21 @@ export default function CustomHeader({ user }: UserProps) {
   };
 
   const breadcrumbItems = generateBreadcrumbs();
-
   const avatarSrc = user?.avatar && user.avatar !== "" ? user.avatar : null;
+
+  const handleLogout = () => {
+    localStorage.removeItem("USER_LOCAL");
+    message.success("Đăng xuất thành công!");
+    router.push("/"); 
+  };
+
+  const handleMenuClick = (key: string) => {
+    if (key === "/logout") {
+      handleLogout();
+    } else {
+      router.push(key); 
+    }
+  };
 
   const userMenuItems: MenuProps["items"] = [
     {
@@ -93,15 +108,25 @@ export default function CustomHeader({ user }: UserProps) {
         </div>
       ),
     },
-    { key: "profile", label: "Thông tin", icon: <InfoCircleOutlined /> },
-    { key: "change-password", label: "Đổi mật khẩu", icon: <LockOutlined /> },
+    {
+      key: "/admin/profile",
+      label: "Thông tin",
+      icon: <InfoCircleOutlined />,
+      onClick: () => handleMenuClick("/admin/profile"),
+    },
+    {
+      key: "/admin/profile/update",
+      label: "Đổi mật khẩu",
+      icon: <LockOutlined />,
+      onClick: () => handleMenuClick("/admin/profile/update"), 
+    },
     { type: "divider" },
     {
-      key: "logout",
+      key: "/logout",
       label: "Đăng xuất",
       icon: <LogoutOutlined />,
       danger: true,
-      // onClick: handleLogout,
+      onClick: () => handleMenuClick("/logout"),
     },
     { type: "divider" },
     {
